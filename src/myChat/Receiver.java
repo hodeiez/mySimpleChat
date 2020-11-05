@@ -16,7 +16,7 @@ import java.net.*;
 public class Receiver implements Runnable {
     int port = 12540;
     String group = "234.235.236.237";
-    String zerotier = "eth15";
+   String iF ="wlan0";
     MulticastSocket recSocket;
     String received;
     InetSocketAddress groupSocket;
@@ -26,6 +26,7 @@ public class Receiver implements Runnable {
 
     Receiver(TextArea textArea) {
         this.textArea = textArea;
+
     }
 
     @Override
@@ -33,7 +34,7 @@ public class Receiver implements Runnable {
         try {
             InetAddress socketAd = InetAddress.getByName(group);
             groupSocket = new InetSocketAddress(socketAd, port);
-            netIf = NetworkInterface.getByName("wlan0");
+            netIf = NetworkInterface.getByName(iF);
             netIfZ = NetworkInterface.getByName("eth15");
             //  DatagramSocket socket=new DatagramSocket(receivePort);
 

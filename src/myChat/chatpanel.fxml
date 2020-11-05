@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="myChat.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="484.0" prefWidth="600.0" style="-fx-background-color: #5a5d41;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="myChat.Controller">
    <children>
       <TextField fx:id="textField" layoutX="43.0" layoutY="360.0" onAction="#sendTxt" prefHeight="26.0" prefWidth="500.0" style="-fx-effect: dropshadow(three-pass-box,rgb(0,0,0),10,0,0,0);;" />
       <ScrollPane fx:id="scrollPane" layoutX="43.0" layoutY="14.0" prefHeight="338.0" prefWidth="500.0" style="-fx-effect: dropshadow(three-pass-box,rgb(0,0,0),10,0,0,0);;">
@@ -21,10 +21,13 @@
       </ScrollPane>
       <TextField fx:id="portF" layoutX="61.0" layoutY="403.0" prefHeight="26.0" prefWidth="136.0" />
       <TextField fx:id="groupF" layoutX="265.0" layoutY="403.0" prefHeight="26.0" prefWidth="136.0" />
-      <TextField fx:id="iFF" layoutX="426.0" layoutY="403.0" />
+      <TextField fx:id="iFF" layoutX="426.0" layoutY="403.0" prefHeight="26.0" prefWidth="75.0" />
       <Label layoutX="217.0" layoutY="407.0" prefHeight="18.0" prefWidth="40.0" text="group" />
       <Label layoutX="28.0" layoutY="407.0" prefHeight="18.0" prefWidth="30.0" text="port" />
       <Label layoutX="411.0" layoutY="406.0" prefHeight="18.0" prefWidth="12.0" text="iF" />
-      <Button layoutX="171.0" layoutY="443.0" mnemonicParsing="false" onAction="#connectOn" prefHeight="26.0" prefWidth="244.0" text="Connect" />
+      <Button layoutX="28.0" layoutY="443.0" mnemonicParsing="false" onAction="#connectOn" prefHeight="26.0" prefWidth="244.0" text="Connect" />
+      <TextField fx:id="groupF1" layoutX="432.0" layoutY="443.0" prefHeight="26.0" prefWidth="136.0" />
+      <Label layoutX="367.0" layoutY="447.0" prefHeight="18.0" prefWidth="67.0" text="your name" />
+      <TextField fx:id="iFF1" layoutX="510.0" layoutY="402.0" prefHeight="26.0" prefWidth="75.0" />
    </children>
 </AnchorPane>
