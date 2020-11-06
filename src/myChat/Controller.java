@@ -6,6 +6,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import myChat.udp.Receiver;
+import myChat.udp.Sender;
 
 public class Controller {
     @FXML
@@ -16,7 +18,10 @@ public class Controller {
     private TextArea textArea;
     @FXML
     private ScrollPane scrollPane;
+    @FXML
+            private TextField nameF;
     Sender s=new Sender();
+    User u=new User();
     public void initialize(){
 
         Receiver rc=new Receiver(textArea);
@@ -25,7 +30,8 @@ public class Controller {
     }
     public void sendTxt() {
         scrollPane.setVvalue(1);
-        s.send(textField.getText());
+        u.setName(nameF.getText());
+        s.send(u.getName()+": " + textField.getText());
         textField.setText("");
     }
 

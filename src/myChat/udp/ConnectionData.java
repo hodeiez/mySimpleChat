@@ -1,4 +1,4 @@
-package myChat;
+package myChat.udp;
 
 /**
  * Created by Hodei Eceiza

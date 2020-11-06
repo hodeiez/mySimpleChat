@@ -1,4 +1,4 @@
-package myChat;
+package myChat.udp;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -29,7 +29,7 @@ public class Sender {
        // this.textArea=textArea;
        // this.textField=textField;
    // }
-    Sender(){}
+   public Sender(){}
     public void send(String message) {
         try {
             InetAddress socketAd = InetAddress.getByName(group);

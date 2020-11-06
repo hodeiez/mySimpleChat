@@ -1,4 +1,4 @@
-package myChat;
+package myChat.udp;
 
 import javafx.scene.control.TextArea;
 
@@ -24,7 +24,7 @@ public class Receiver implements Runnable {
     NetworkInterface netIfZ;
     TextArea textArea;
 
-    Receiver(TextArea textArea) {
+    public Receiver(TextArea textArea) {
         this.textArea = textArea;
 
     }
