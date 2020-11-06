@@ -1,5 +1,7 @@
 package myChat.tcp;
 
+import javafx.scene.control.TextArea;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,25 +15,37 @@ import java.net.Socket;
  * Project: myChat
  * Copyright: MIT
  */
-public class Server {
+public class Server implements Runnable {
     private int port=12345;
-    Server(){
+    String readToPrint;
+    TextArea textArea;
+
+    public String getReadToPrint() {
+        return readToPrint;
+    }
+
+    public Server(TextArea textArea){
+        this.textArea=textArea;
+    }
+
+
+    @Override
+    public void run() {
         try (
-            ServerSocket serverSocket=new ServerSocket(port);
-            Socket clientSocket =serverSocket.accept();
-            BufferedReader input =new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
+                ServerSocket serverSocket=new ServerSocket(port);
+                Socket clientSocket =serverSocket.accept();
+                BufferedReader input =new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
         ){
             while(true){
-                System.out.println(input.readLine());
+                readToPrint=input.readLine();
+                System.out.println(readToPrint);
+                textToPrint();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
-    public static void main(String[] args) {
-        Server s=new Server();
+    public void textToPrint(){
+        textArea.appendText(getReadToPrint()+"\n");
     }
-
 }

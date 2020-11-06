@@ -6,6 +6,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import myChat.tcp.Server;
 import myChat.udp.Receiver;
 import myChat.udp.Sender;
 
@@ -16,6 +17,8 @@ public class Controller {
     public TextField groupF;
     public TextField iFF;
     public TextField iFF1;
+    @FXML
+    private TextArea tcpTextArea;
     @FXML
     private TextField textField;
     @FXML
@@ -45,7 +48,7 @@ public class Controller {
 
     }
 
-    public void connectOn(ActionEvent actionEvent) {
+    public void connectOn(ActionEvent actionEvent) { ///have to clean this logic and put in Model??
         u.setName(nameF.getText());
         if (rc == null) {
             rc = new Receiver(textArea);
@@ -66,6 +69,9 @@ public class Controller {
     }
 
     public void connectTCPon(ActionEvent actionEvent) {
+        Server s=new Server(tcpTextArea);
+        Thread th2=new Thread(s);
+        th2.start();
     }
 
     public void connectedMes() {
