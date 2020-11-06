@@ -2,6 +2,7 @@ package myChat.tcp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -14,32 +15,31 @@ import java.util.Scanner;
  */
 public class Client {
 
-    String host;
-    int port;
+    String host="127.0.0.1";
+    int port=12345;
     String out;
-    Client(){
-        Scanner scn=new Scanner(System.in);
+    Client() {
+        Scanner scn = new Scanner(System.in);
         out=scn.nextLine();
-       host="172.20.201.122";
-       port=12345;
-    }
+        port = 12345;
 
 
-    {
-        try (
-            Socket address = new Socket(host,port);
-            PrintWriter printOut=new PrintWriter(address.getOutputStream(),true);
+        {
+            try (
+                    Socket address = new Socket(host, port);
+                    PrintWriter printOut = new PrintWriter(address.getOutputStream(), true);
 
-        ){
-            while(true){
-                printOut.println(out);
-                Thread.sleep(1000);
+            ) {
+                while (true) {
+
+                    printOut.println(out);
+                    Thread.sleep(1000);
+                }
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
             }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
         }
     }
-
     public static void main(String[] args) {
         Client c=new Client();
     }
