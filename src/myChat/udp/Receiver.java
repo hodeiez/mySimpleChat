@@ -28,6 +28,16 @@ public class Receiver implements Runnable {
         this.textArea = textArea;
 
     }
+    public Receiver(TextArea textarea,int port,String group,String netiF){
+        this.textArea=textarea;
+        this.port=port;
+        this.group=group;
+        try {
+            this.netIf=NetworkInterface.getByName(netiF);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void run() {
@@ -35,8 +45,6 @@ public class Receiver implements Runnable {
             InetAddress socketAd = InetAddress.getByName(group);
             groupSocket = new InetSocketAddress(socketAd, port);
             netIf = NetworkInterface.getByName(iF);
-            netIfZ = NetworkInterface.getByName("eth15");
-            //  DatagramSocket socket=new DatagramSocket(receivePort);
 
             recSocket = new MulticastSocket(port);
         } catch (Exception e) {

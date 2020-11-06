@@ -30,6 +30,15 @@ public class Sender {
        // this.textField=textField;
    // }
    public Sender(){}
+   public Sender(int port,String group,String netiF){
+       this.port=port;
+       this.group=group;
+       try {
+           this.netIf=NetworkInterface.getByName(netiF);
+       } catch (SocketException e) {
+           e.printStackTrace();
+       }
+   }
     public void send(String message) {
         try {
             InetAddress socketAd = InetAddress.getByName(group);
