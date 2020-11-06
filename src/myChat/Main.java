@@ -13,8 +13,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("chatpanel.fxml"));
-        primaryStage.setTitle("Chat");
-        primaryStage.setScene(new Scene(root, 900, 500));
+        primaryStage.setTitle("Chatty chatty");
+        primaryStage.setScene(new Scene(root, 853, 590));
         primaryStage.show();
     }
 

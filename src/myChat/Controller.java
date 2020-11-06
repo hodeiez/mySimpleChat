@@ -33,7 +33,7 @@ public class Controller {
     Thread th;
 
     public void initialize() {
-
+textArea.setEditable(false);
         //  rc = new Receiver(textArea);
 
     }
@@ -49,6 +49,7 @@ public class Controller {
     }
 
     public void connectOn(ActionEvent actionEvent) { ///have to clean this logic and put in Model??
+
         u.setName(nameF.getText());
         if (rc == null) {
             rc = new Receiver(textArea);

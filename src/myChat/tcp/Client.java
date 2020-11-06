@@ -21,8 +21,8 @@ public class Client {
     String out;
     InetAddress test;
     Client() {
-        Scanner scn = new Scanner(System.in);
-        out=scn.nextLine();
+       Scanner scn = new Scanner(System.in);
+        //out=scn.nextLine();
         port = 12345;
 
         try {
@@ -39,14 +39,19 @@ public class Client {
 
             ) {
                 while (true) {
-
-                    printOut.println(out + test.getCanonicalHostName());
-                    Thread.sleep(1000);
+                    String message = scn.nextLine();
+                    printOut.println(message);
+                    if(message.equals("exit")) break;
+                 //   printOut.println(out + test.getCanonicalHostName());
+                   // Thread.sleep(1000);
                 }
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+    public void send(String message){
+
     }
     public static void main(String[] args) {
         Client c=new Client();

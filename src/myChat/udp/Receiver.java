@@ -2,7 +2,6 @@ package myChat.udp;
 
 import javafx.scene.control.TextArea;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.*;
 
@@ -21,7 +20,6 @@ public class Receiver implements Runnable {
     String received;
     InetSocketAddress groupSocket;
     NetworkInterface netIf;
-    NetworkInterface netIfZ;
     TextArea textArea;
 
     public Receiver(TextArea textArea) {
