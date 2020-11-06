@@ -27,6 +27,7 @@ public class Controller {
     Sender s;
     User u = new User();
     Receiver rc;
+    Thread th;
 
     public void initialize() {
 
@@ -38,27 +39,37 @@ public class Controller {
         String sendTxt = textField.getText();
         textField.setText("");
         scrollPane.setVvalue(1);
-        u.setName(nameF.getText());
+
         if (s != null)
             s.send(u.getName() + ": " + sendTxt);
 
     }
 
     public void connectOn(ActionEvent actionEvent) {
+        u.setName(nameF.getText());
         if (rc == null) {
             rc = new Receiver(textArea);
             s = new Sender();
+            connectedMes();
         } else {
             try {
                 Integer.parseInt(portF.getText());
                 s = new Sender(Integer.parseInt(portF.getText()), groupF.getText(), iFF.getText());
                 rc = new Receiver(textArea, Integer.parseInt(portF.getText()), groupF.getText(), iFF1.getText());
+                connectedMes();
             } catch (NumberFormatException e) {
                 textArea.appendText("write a number for port\n");
             }
         }
-        Thread th = new Thread(rc);
+        th = new Thread(rc);
         th.start();
+    }
+
+    public void connectTCPon(ActionEvent actionEvent) {
+    }
+
+    public void connectedMes() {
+        s.send(u.getName() + " is connected!");
     }
 }
 
