@@ -75,12 +75,11 @@ textArea.setEditable(false);
     }
 
     public void connectTCPon(ActionEvent actionEvent) {
-        Server s=new Server(tcpTextArea,imagePane);
-        Thread th2=new Thread(s);
+        Server s = new Server(tcpTextArea, imagePane);
+         Thread th2=new Thread(s);
         th2.start();
 
     }
-
     public void connectedMes() {
         s.send(u.getName() + " is connected!");
     }

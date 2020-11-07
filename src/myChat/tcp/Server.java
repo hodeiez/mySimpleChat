@@ -1,5 +1,6 @@
 package myChat.tcp;
 
+import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Sphere;
@@ -47,13 +48,15 @@ public class Server implements Runnable {
                 readToPrint=input.readLine();
                 System.out.println(readToPrint);
                 InetSocketAddress sockaddr=(InetSocketAddress)clientSocket.getRemoteSocketAddress();
+                textToPrint();
                 if(readToPrint.equals("info"))
                     textToPrint();
                 if(readToPrint.equals("sphere")) {
                     Sphere mySphere=new Sphere();
                     mySphere.setRadius(50);
                     mySphere.setStyle("-fx-fill: red");
-                    imagePane.getChildren().add(mySphere);
+                    //add sphere to imagePane
+                    Platform.runLater(() -> imagePane.getChildren().add(mySphere));
                 }
             }
         } catch (IOException e) {
