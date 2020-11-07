@@ -1,6 +1,8 @@
 package myChat.tcp;
 
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Sphere;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,13 +22,15 @@ public class Server implements Runnable {
     private int port=12345;
     String readToPrint;
     TextArea textArea;
+    StackPane imagePane;
 
     public String getReadToPrint() {
         return readToPrint;
     }
 
-    public Server(TextArea textArea){
+    public Server(TextArea textArea, StackPane imagePane){
         this.textArea=textArea;
+        this.imagePane=imagePane;
     }
 
 
@@ -44,8 +48,13 @@ public class Server implements Runnable {
                 System.out.println(readToPrint);
                 InetSocketAddress sockaddr=(InetSocketAddress)clientSocket.getRemoteSocketAddress();
                 if(readToPrint.equals("info"))
-
-                textToPrint();
+                    textToPrint();
+                if(readToPrint.equals("sphere")) {
+                    Sphere mySphere=new Sphere();
+                    mySphere.setRadius(50);
+                    mySphere.setStyle("-fx-fill: red");
+                    imagePane.getChildren().add(mySphere);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

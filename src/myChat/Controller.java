@@ -1,11 +1,15 @@
 package myChat;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Sphere;
 import myChat.tcp.Server;
 import myChat.udp.Receiver;
 import myChat.udp.Sender;
@@ -17,6 +21,7 @@ public class Controller {
     public TextField groupF;
     public TextField iFF;
     public TextField iFF1;
+    public StackPane imagePane;
     @FXML
     private TextArea tcpTextArea;
     @FXML
@@ -70,9 +75,10 @@ textArea.setEditable(false);
     }
 
     public void connectTCPon(ActionEvent actionEvent) {
-        Server s=new Server(tcpTextArea);
+        Server s=new Server(tcpTextArea,imagePane);
         Thread th2=new Thread(s);
         th2.start();
+
     }
 
     public void connectedMes() {
