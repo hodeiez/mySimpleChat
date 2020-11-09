@@ -1,6 +1,8 @@
 package myChat.tcp;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -36,14 +38,17 @@ public class Client {
             try (
                     Socket address = new Socket(host, port);
                     PrintWriter printOut = new PrintWriter(address.getOutputStream(), true);
+                    BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(address.getInputStream()));
 
             ) {
+                System.out.println(bufferedReader.readLine());
                 while (true) {
                     String message = scn.nextLine();
                     printOut.println(message);
                     if(message.equals("exit")) break;
                  //   printOut.println(out + test.getCanonicalHostName());
                    // Thread.sleep(1000);
+                    System.out.println(bufferedReader.readLine());
                 }
             } catch (IOException e) {
                 e.printStackTrace();

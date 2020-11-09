@@ -16,7 +16,9 @@ import javafx.util.Duration;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Random;
@@ -58,43 +60,29 @@ public class MultiUserReceiver extends Thread{
     public void run(){
         try {
             BufferedReader input =new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter printOut = new PrintWriter(clientSocket.getOutputStream(), true);
+            InetSocketAddress sockaddr=(InetSocketAddress)clientSocket.getRemoteSocketAddress();
+            printOut.println("you are connected " + sockaddr.getAddress() + " write 'sphere' to create a sphere, write info to get some info");
             while(true){
                 //create all the receiving methods
 
+               // System.out.println("Welcome " + sockaddr.getAddress());
                 readToPrint=input.readLine();
                 System.out.println(readToPrint);
-                InetSocketAddress sockaddr=(InetSocketAddress)clientSocket.getRemoteSocketAddress();
+              //
                 textToPrint();
                 if(readToPrint.equals("info")) {
+                    printOut.println("you ask for info");
                     readToPrint= sockaddr.getHostString();
                     textToPrint();
 
                 }
                 if(readToPrint.equals("sphere")) {
+                    printOut.println("you created a sphere");
                     readToPrint="sphere created";
                     textToPrint();
                     //creating a sphere
-                    Random rnd=new Random();
-                    Sphere mySphere=new Sphere();
-                    mySphere.setRadius(50);
-                    PhongMaterial color=new PhongMaterial();
-                    color.setDiffuseColor(Color.BEIGE);
-                    color.setDiffuseMap(new Image(String.valueOf(new URL("https://i.stack.imgur.com/9VQJu.jpg"))));
-                    mySphere.setTranslateX(rnd.nextInt(100));
-                    mySphere.setTranslateY(rnd.nextInt(100));
-                    mySphere.setMaterial(color);
-
-                    //animation test
-                    RotateTransition rt4 = new RotateTransition();
-                    rt4.setNode(mySphere);
-                    rt4.setDuration(Duration.millis(9000));
-                    rt4.setAxis(Rotate.Y_AXIS);
-                    rt4.setByAngle(360);
-                    rt4.setCycleCount(Animation.INDEFINITE);
-                    rt4.setInterpolator(Interpolator.LINEAR);
-                    rt4.play();
-                    //add sphere to imagePane
-                    Platform.runLater(() -> imagePane.getChildren().add(mySphere));
+                    createSphere();
                 }
             }
 
@@ -102,6 +90,34 @@ public class MultiUserReceiver extends Thread{
             e.printStackTrace();
         }
 
+    }
+    public void createSphere(){
+        Random rnd=new Random();
+        Sphere mySphere=new Sphere();
+        mySphere.setRadius(50);
+        PhongMaterial color=new PhongMaterial();
+        color.setDiffuseColor(Color.BEIGE);
+        try {
+            color.setDiffuseMap(new Image(String.valueOf(new URL("https://i.stack.imgur.com/9VQJu.jpg"))));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        mySphere.setTranslateX(rnd.nextInt(300)-200);
+        mySphere.setTranslateY(rnd.nextInt(300)-200);
+        mySphere.setMaterial(color);
+
+        //animation test
+        RotateTransition rt4 = new RotateTransition();
+        rt4.setNode(mySphere);
+        rt4.setDuration(Duration.millis(9000));
+        rt4.setAxis(Rotate.Y_AXIS);
+        rt4.setByAngle(360);
+        rt4.setCycleCount(Animation.INDEFINITE);
+        rt4.setInterpolator(Interpolator.LINEAR);
+        rt4.play();
+        //add sphere to imagePane
+
+        Platform.runLater(() -> imagePane.getChildren().add(mySphere));
     }
     public void textToPrint(){
         textArea.appendText(getReadToPrint()+"\n");
