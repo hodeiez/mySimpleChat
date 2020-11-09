@@ -3,6 +3,7 @@ package myChat.tcp;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -77,12 +78,13 @@ public class MultiUserReceiver extends Thread{
                     textToPrint();
 
                 }
-                if(readToPrint.equals("sphere")) {
+                if(readToPrint.contains("sphere")) {
                     printOut.println("you created a sphere");
-                    readToPrint="sphere created";
+
                     textToPrint();
                     //creating a sphere
-                    createSphere();
+                    createSphere(readToPrint);
+                    readToPrint="sphere created";
                 }
             }
 
@@ -91,12 +93,17 @@ public class MultiUserReceiver extends Thread{
         }
 
     }
-    public void createSphere(){
+    public void createSphere(String sphere){
+        String [] split=sphere.split(" ");
+
+        double radius=Double.parseDouble(split[1]);
+        Color colored=Color.valueOf(split[2]);
+
         Random rnd=new Random();
         Sphere mySphere=new Sphere();
-        mySphere.setRadius(50);
+        mySphere.setRadius(radius);
         PhongMaterial color=new PhongMaterial();
-        color.setDiffuseColor(Color.BEIGE);
+        color.setDiffuseColor(colored);
         try {
             color.setDiffuseMap(new Image(String.valueOf(new URL("https://i.stack.imgur.com/9VQJu.jpg"))));
         } catch (MalformedURLException e) {
@@ -115,6 +122,14 @@ public class MultiUserReceiver extends Thread{
         rt4.setCycleCount(Animation.INDEFINITE);
         rt4.setInterpolator(Interpolator.LINEAR);
         rt4.play();
+        TranslateTransition tt4=new TranslateTransition();
+        tt4.setNode(mySphere);
+        tt4.setFromX(23);
+        tt4.setToX(200);
+        tt4.setDuration(Duration.millis(9000));
+        tt4.setCycleCount(Animation.INDEFINITE);
+        tt4.setInterpolator(Interpolator.LINEAR);
+        tt4.play();
         //add sphere to imagePane
 
         Platform.runLater(() -> imagePane.getChildren().add(mySphere));
