@@ -1,5 +1,9 @@
 package myChat.tcp;
 
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,6 +26,39 @@ public class Client {
     int port=12345;
     String out;
     InetAddress test;
+
+    TextArea textArea;
+    StackPane imagePane;
+    TextField myTextField;
+
+    public TextArea getTextArea() {
+        return textArea;
+    }
+
+    public void setTextArea(TextArea textArea) {
+        this.textArea = textArea;
+    }
+
+    public StackPane getImagePane() {
+        return imagePane;
+    }
+
+    public void setImagePane(StackPane imagePane) {
+        this.imagePane = imagePane;
+    }
+
+    public TextField getMyTextField() {
+        return myTextField;
+    }
+
+    public void setMyTextField(TextField myTextField) {
+        this.myTextField = myTextField;
+    }
+Client(TextArea textArea, StackPane imagePane, TextField myTextField){
+        this.textArea=textArea;
+        this.imagePane =imagePane;
+        this.myTextField=myTextField;
+}
     Client() {
        Scanner scn = new Scanner(System.in);
         //out=scn.nextLine();

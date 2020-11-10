@@ -57,6 +57,9 @@ public class MultiUserReceiver extends Thread{
         this.imagePane=imagePane;
         this.textArea=textArea;
     }
+    MultiUserReceiver(Socket clientSocket){
+        this.clientSocket=clientSocket;
+    }
     @Override
     public void run(){
         try {

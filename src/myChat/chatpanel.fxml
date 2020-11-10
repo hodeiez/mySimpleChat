@@ -51,7 +51,7 @@
             <Font name="Carlito" size="41.0" />
          </font>
       </Label>
-      <StackPane fx:id="imagePane" layoutX="589.0" layoutY="67.0" prefHeight="178.0" prefWidth="214.0" />
+      <StackPane fx:id="imagePane" layoutX="589.0" layoutY="57.0" prefHeight="188.0" prefWidth="214.0" />
       <TextField fx:id="tcpField" layoutX="598.0" layoutY="454.0" prefHeight="26.0" prefWidth="327.0" />
       <ScrollPane layoutX="815.0" layoutY="54.0" prefHeight="188.0" prefWidth="110.0">
         <content>

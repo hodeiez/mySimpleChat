@@ -22,6 +22,8 @@ public class Controller {
     public TextField iFF;
     public TextField iFF1;
     public StackPane imagePane;
+    public TextField tcpField;
+    public TextArea statusArea;
     @FXML
     private TextArea tcpTextArea;
     @FXML
@@ -75,7 +77,7 @@ textArea.setEditable(false);
     }
 
     public void connectTCPon(ActionEvent actionEvent) {
-        Server s = new Server(tcpTextArea, imagePane);
+        Server s = new Server(tcpTextArea, imagePane); //<-change to client, the gui is in client side.
          Thread th2=new Thread(s);
         th2.start();
 

@@ -1,28 +1,14 @@
 package myChat.tcp;
 
-import com.sun.javafx.sg.prism.NGPhongMaterial;
-import javafx.animation.Animation;
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
-import javafx.application.Platform;
-import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Material;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Sphere;
-import javafx.scene.transform.Rotate;
-import javafx.util.Duration;
 
-import java.io.BufferedReader;
+import javafx.scene.control.TextArea;
+
+import javafx.scene.layout.StackPane;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetSocketAddress;
+
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.URL;
-import java.util.Random;
+
 
 /**
  * Created by Hodei Eceiza
@@ -50,13 +36,11 @@ public class Server implements Runnable {
     @Override
     public void run() {
         try (
-                ServerSocket serverSocket=new ServerSocket(port);
-               // Socket clientSocket =serverSocket.accept();
-             //  BufferedReader input =new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
+                ServerSocket serverSocket=new ServerSocket(port)
 
         ){
             while(true) {
-                MultiUserReceiver user = new MultiUserReceiver(serverSocket.accept(), textArea, imagePane);
+                MultiUserReceiver user = new MultiUserReceiver(serverSocket.accept(), textArea, imagePane); //<-only start an accept, multiuser will SEND the info to client, an client will print!
                 textArea = user.getTextArea();
                 imagePane = user.getImagePane();
                 user.start();
