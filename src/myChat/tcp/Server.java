@@ -1,10 +1,6 @@
 package myChat.tcp;
 
 
-import javafx.scene.control.TextArea;
-
-import javafx.scene.layout.StackPane;
-
 import java.io.IOException;
 
 import java.net.ServerSocket;
@@ -19,19 +15,11 @@ import java.net.ServerSocket;
  */
 public class Server implements Runnable {
     private int port=12345;
-    String readToPrint;
-    TextArea textArea;
-    StackPane imagePane;
+    private static ServerPrinter serverPrinter =new ServerPrinter();
 
-    public String getReadToPrint() {
-        return readToPrint;
+    public Server(){
+
     }
-
-    public Server(TextArea textArea, StackPane imagePane){
-        this.textArea=textArea;
-        this.imagePane=imagePane;
-    }
-
 
     @Override
     public void run() {
@@ -40,9 +28,8 @@ public class Server implements Runnable {
 
         ){
             while(true) {
-                MultiUserReceiver user = new MultiUserReceiver(serverSocket.accept(), textArea, imagePane); //<-only start an accept, multiuser will SEND the info to client, an client will print!
-                textArea = user.getTextArea();
-                imagePane = user.getImagePane();
+
+                MultiUserReceiver user = new MultiUserReceiver(serverSocket.accept(), serverPrinter);
                 user.start();
             }
 
@@ -54,7 +41,5 @@ public class Server implements Runnable {
 
 
     }
-    public void textToPrint(){
-        textArea.appendText(getReadToPrint()+"\n");
-    }
+
 }

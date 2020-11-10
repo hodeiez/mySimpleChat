@@ -1,5 +1,7 @@
 package myChat.tcp;
 
+import java.io.Serializable;
+
 /**
  * Created by Hodei Eceiza
  * Date: 11/10/2020
@@ -7,5 +9,5 @@ package myChat.tcp;
  * Project: myChat
  * Copyright: MIT
  */
-public class Init {
+public class Init implements Serializable {
 }
