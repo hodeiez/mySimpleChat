@@ -98,6 +98,10 @@ public class Client implements Runnable {
 
     }
 
+    /**
+     * takes the text from textfield and sends to the server
+     * @param message string from textfield
+     */
     public void sendText(String message) {
         if(name==null){
        printOut.println(message);}
