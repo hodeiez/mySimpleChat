@@ -1,6 +1,5 @@
 package myChat;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
@@ -8,9 +7,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Sphere;
-import myChat.tcp.Server;
+
+import myChat.tcp.Client;
+import myChat.tcp.Server.Server;
 import myChat.udp.Receiver;
 import myChat.udp.Sender;
 
@@ -22,6 +21,9 @@ public class Controller {
     public TextField iFF;
     public TextField iFF1;
     public StackPane imagePane;
+    public TextField tcpField;
+    public TextArea statusArea;
+    public ScrollPane tcpAreaScroll;
     @FXML
     private TextArea tcpTextArea;
     @FXML
@@ -36,11 +38,27 @@ public class Controller {
     User u = new User();
     Receiver rc;
     Thread th;
+    Client c;
 
     public void initialize() {
-textArea.setEditable(false);
-        //  rc = new Receiver(textArea);
+        textArea.setEditable(false);
+        tcpTextArea.setEditable(false);
 
+        //  rc = new Receiver(textArea);
+    }
+
+    public void connectTCPon(ActionEvent actionEvent) {
+        c = new Client(tcpTextArea, imagePane, tcpField);
+
+        Thread th2 = new Thread(c);
+        th2.start();
+
+    }
+
+    public void sendTxtTCP() {
+        c.sendText(tcpField.getText());
+        tcpField.setText("");
+        tcpAreaScroll.setVvalue(1);
     }
 
     public void sendTxt() {
@@ -74,14 +92,16 @@ textArea.setEditable(false);
         th.start();
     }
 
-    public void connectTCPon(ActionEvent actionEvent) {
-        Server s = new Server(tcpTextArea, imagePane);
-         Thread th2=new Thread(s);
-        th2.start();
 
-    }
     public void connectedMes() {
         s.send(u.getName() + " is connected!");
+    }
+
+
+    public void startServer(ActionEvent actionEvent) {
+        Server s = new Server();
+        Thread th = new Thread(s);
+        th.start();
     }
 }
 
