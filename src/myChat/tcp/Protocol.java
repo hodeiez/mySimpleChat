@@ -1,5 +1,8 @@
 package myChat.tcp;
 
+import myChat.tcp.Common.Init;
+import myChat.tcp.Common.Response;
+
 /**
  * Created by Hodei Eceiza
  * Date: 11/9/2020

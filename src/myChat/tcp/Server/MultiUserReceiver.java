@@ -1,8 +1,10 @@
-package myChat.tcp;
+package myChat.tcp.Server;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import myChat.tcp.Common.Init;
+import myChat.tcp.Common.UserData;
 
 import java.io.*;
 import java.net.Socket;
@@ -19,6 +21,7 @@ public class MultiUserReceiver extends Thread {
     TextArea textArea;
     StackPane imagePane;
     ServerPrinter serverPrinter;
+    Object objIn;
 
     public TextArea getTextArea() {
         return textArea;
@@ -49,34 +52,41 @@ public class MultiUserReceiver extends Thread {
             BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter printOut = new PrintWriter(clientSocket.getOutputStream(), true);
            ObjectOutputStream objectOut=new ObjectOutputStream(clientSocket.getOutputStream());
+            ObjectInputStream objectIn = new ObjectInputStream(clientSocket.getInputStream());
             serverPrinter.addWriter(printOut);
+            serverPrinter.addWriteObjects(objectOut);
 
-//LOG IN LOGIC
-            objectOut.writeObject(new Init());
-            String name=input.readLine();
-            //check the name
-            printOut.println(name);
-            String connected=input.readLine();
-            sendToAllClients(connected);
-
-            while (true) {
-
-
-                String inputs=input.readLine();
-                sendToAllClients(inputs);
-
+            while(true){
+                objIn=objectIn.readObject();
+                if(objIn instanceof Init){
+                    objectOut.writeObject(new Init());
+                }
+                else if(objIn instanceof String){
+                    UserData userdata=new UserData();
+                    userdata.setName((String)objIn);
+                    objectOut.writeObject(userdata);
+                }
+                else if(objIn instanceof UserData){
+                    sendToAllClients((UserData)objIn);
+                }
             }
-
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+
+
         }
 
     }
-public void sendToAllClients(String message){
-    for (PrintWriter pw : serverPrinter.getWritings()) {
-        pw.println(message);
+
+    public void sendToAllClients(UserData message){
+        serverPrinter.getWriteObjects().forEach(pw -> {
+            try {
+                pw.writeObject(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
-}
     public void createSphere(String sphere) {
         String[] split = sphere.split(" ");
 

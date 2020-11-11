@@ -3,6 +3,8 @@ package myChat.tcp;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import myChat.tcp.Common.Init;
+import myChat.tcp.Common.UserData;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -30,8 +32,10 @@ public class Client implements Runnable {
     PrintWriter printOut;
     BufferedReader stringIn;
     ObjectInputStream objectIn;
+    ObjectOutputStream objectOut;
     String readToPrint;
     Object inObj;
+    UserData userData;
 
 
     public void setTextArea() {
@@ -49,6 +53,7 @@ public class Client implements Runnable {
             printOut = new PrintWriter(address.getOutputStream(), true);
             stringIn = new BufferedReader(new InputStreamReader(address.getInputStream()));
             objectIn = new ObjectInputStream(address.getInputStream());
+            objectOut = new ObjectOutputStream(address.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,48 +71,51 @@ public class Client implements Runnable {
             e.printStackTrace();
         }
 
-//LOG IN LOGIC
         try {
-            inObj = objectIn.readObject();
+            objectOut.writeObject(new Init()); //send start message
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
-        if (inObj instanceof Init) {
-            readToPrint = "Write your name";
-            setTextArea();
-            try {
-                name=stringIn.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            readToPrint =name + " is connected";
-            printOut.println(readToPrint);
-        }
-        //END LOG IN LOGIC, STARTS THE CHAT INTERACTION LOGIC
         while (true) {
             try {
-                readToPrint = stringIn.readLine();
+                inObj = objectIn.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (inObj instanceof Init) {
+                readToPrint = "Write your name";//ADD new message if user name exists
                 setTextArea();
-                System.out.println(readToPrint);
+            } else if (inObj instanceof UserData) {
+
+                if (userData == null) {
+                    userData = (UserData) inObj;
+                    readToPrint = userData.getName() + " is connected";
+                    setTextArea();
+                } else {
+                    readToPrint = (((UserData) inObj).getName()) + " :" + (((UserData) inObj).getMessage());
+                    setTextArea();
+                }
+            }
+
+        }
+    }
+
+    public void sendText(String message) {
+        if (userData == null) {
+            try {
+                objectOut.writeObject(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // printOut.println(message);
+        } else {
+            userData.setMessage(message);
+            try {
+                objectOut.writeObject(userData);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-    }
-
-    /**
-     * takes the text from textfield and sends to the server
-     * @param message string from textfield
-     */
-    public void sendText(String message) {
-        if(name==null){
-       printOut.println(message);}
-        else
-            printOut.println(name +": " + message);
-
     }
 
     public String getName() {

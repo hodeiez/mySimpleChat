@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
 import myChat.tcp.Client;
-import myChat.tcp.Server;
+import myChat.tcp.Server.Server;
 import myChat.udp.Receiver;
 import myChat.udp.Sender;
 

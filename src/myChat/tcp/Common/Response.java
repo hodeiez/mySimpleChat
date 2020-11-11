@@ -1,4 +1,4 @@
-package myChat.tcp;
+package myChat.tcp.Common;
 
 /**
  * Created by Hodei Eceiza

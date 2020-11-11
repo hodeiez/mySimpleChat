@@ -1,4 +1,4 @@
-package myChat.tcp;
+package myChat.tcp.Server;
 
 
 import java.io.IOException;
