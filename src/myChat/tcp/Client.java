@@ -23,9 +23,8 @@ public class Client implements Runnable {
 
     String host = "127.0.0.1";
     int port = 12345;
-    String out;
     InetAddress test;
-    String name;
+
     TextArea textArea;
     StackPane imagePane;
     TextField myTextField;

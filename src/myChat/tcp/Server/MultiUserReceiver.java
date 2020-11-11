@@ -1,7 +1,5 @@
 package myChat.tcp.Server;
 
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import myChat.tcp.Common.Init;
 import myChat.tcp.Common.UserData;
@@ -17,15 +15,11 @@ import java.net.Socket;
  * Copyright: MIT
  */
 public class MultiUserReceiver extends Thread {
-    String readToPrint;
     ServerPrinter serverPrinter;
     Object objIn;
     DAO database;
 
 
-    public String getReadToPrint() {
-        return readToPrint;
-    }
 
     Socket clientSocket;
 
@@ -88,14 +82,12 @@ public class MultiUserReceiver extends Thread {
 
     public boolean nameExists(String name) {
         boolean exists = false;
-        System.out.println(database.getUserdataList());
         for (UserData user : database.getUserdataList()) {
             if (user.getName().equals(name)) {
                 exists = true;
                 break;
             }
         }
-        System.out.println("returning nameExists");
         return exists;
     }
 
@@ -106,10 +98,5 @@ public class MultiUserReceiver extends Thread {
         Color colored = Color.valueOf(split[2]);
 
     }
-/*
-    public void textToPrint() {
-        textArea.appendText(getReadToPrint() + "\n");
-    }
 
- */
 }
