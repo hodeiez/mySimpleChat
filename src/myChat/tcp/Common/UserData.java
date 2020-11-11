@@ -12,6 +12,7 @@ import java.io.Serializable;
 public class UserData implements Serializable {
    private String name;
   private  String message;
+    private boolean online=false;
   public UserData(){
 
   }
@@ -33,5 +34,12 @@ this.name=name;
 
     public void setMessage(String message) {
         this.message = message;
+    }
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 }

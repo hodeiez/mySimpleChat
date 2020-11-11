@@ -1,7 +1,7 @@
 package myChat.tcp.Server;
 
 import myChat.tcp.Common.Init;
-import myChat.tcp.Common.Response;
+import myChat.tcp.Common.Status;
 import myChat.tcp.Common.UserData;
 
 import java.io.IOException;
@@ -40,11 +40,15 @@ public class Protocol {
     }
 
     public void sendToAllClients(Object clientsIn, ServerPrinter serverPrinter) {
-        if (clientsIn instanceof UserData) {
-            sendToAllClients((UserData) clientsIn, serverPrinter);
+        if (clientsIn instanceof UserData)
+            printForEveryone(clientsIn,serverPrinter);
+        //   else if (clientsIn instanceof Status){
+          //      printForEveryone(clientsIn,serverPrinter);
+           // }
+           // sendToAllClients((UserData) clientsIn, serverPrinter);
         }
 
-    }
+
 
     public boolean nameExists(String name, DAO database) {
         boolean exists = false;
@@ -57,7 +61,7 @@ public class Protocol {
         return exists;
     }
 
-    public void sendToAllClients(UserData messages, ServerPrinter serverPrinter) {
+    public void printForEveryone(Object messages, ServerPrinter serverPrinter) {
         serverPrinter.getWriteObjects().forEach(pw -> {
             try {
                 pw.writeObject(messages);
@@ -66,4 +70,6 @@ public class Protocol {
             }
         });
     }
+
+
 }

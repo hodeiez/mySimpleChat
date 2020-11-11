@@ -4,6 +4,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import myChat.tcp.Common.Init;
+import myChat.tcp.Common.Status;
 import myChat.tcp.Common.UserData;
 
 import java.io.*;
@@ -93,13 +94,24 @@ public class Client implements Runnable {
 
                 if (userData == null) {
                     userData = (UserData) inObj;
-                    readToPrint = userData.getName() + " is connected";
+                    readToPrint = "you are connected as " + userData.getName();
+                   // try {
+                     //   Status s=new Status(true);
+                       // s.setName(userData.getName());
+                        //objectOut.writeObject(s);
+                  //  } catch (IOException e) {
+                    //    e.printStackTrace();
+                   // }
                 } else {
                     userData = (UserData) inObj;
                     readToPrint = (((UserData) inObj).getName()) + ": " + (((UserData) inObj).getMessage());
                 }
                 setTextArea();
             }
+         //   else if(inObj instanceof Status){
+           //     readToPrint=((Status)inObj).getName() + "is connected";
+             //   setTextArea();
+           // }
 
         }
     }

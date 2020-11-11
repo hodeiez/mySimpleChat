@@ -9,6 +9,7 @@ package myChat;
  */
 public class User {
     private String name;
+
 User(){}
     public String getName() {
         return name;
@@ -17,4 +18,7 @@ User(){}
     public void setName(String name) {
         this.name = name;
     }
+
+
 }
+
