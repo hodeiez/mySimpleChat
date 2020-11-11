@@ -10,4 +10,20 @@ import java.io.Serializable;
  * Copyright: MIT
  */
 public class Init implements Serializable {
+    boolean restarted;
+
+    public Init(){
+        restarted=false;
+    }
+    public Init(boolean restarted){
+        this.restarted=restarted;
+    }
+
+    public boolean isRestarted() {
+        return restarted;
+    }
+
+    public void setRestarted(boolean restarted) {
+        this.restarted = restarted;
+    }
 }

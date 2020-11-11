@@ -15,8 +15,10 @@ import java.util.List;
  */
 public class DAO {
     List<UserData> userDataList=new ArrayList<>();
-    public void addUserData(UserData userData){
-        userDataList.add(userData);
+    public void addUserData(UserData userData){ userDataList.add(userData);
     }
-    public void removeWriter(UserData userData){userDataList.remove(userData);}
+    public void removeData(UserData userData){userDataList.remove(userData);}
+    public List<UserData> getUserdataList(){
+        return userDataList;
+    }
 }

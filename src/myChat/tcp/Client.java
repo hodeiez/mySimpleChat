@@ -83,18 +83,23 @@ public class Client implements Runnable {
                 e.printStackTrace();
             }
             if (inObj instanceof Init) {
-                readToPrint = "Write your name";//ADD new message if user name exists
+                if (!((Init) inObj).isRestarted()) {
+                    readToPrint = "Write your name";//ADD new message if user name exists
+                } else {
+                    readToPrint = "Name already exists, type another name";
+                }
                 setTextArea();
+
             } else if (inObj instanceof UserData) {
 
                 if (userData == null) {
                     userData = (UserData) inObj;
                     readToPrint = userData.getName() + " is connected";
-                    setTextArea();
                 } else {
+                    userData = (UserData) inObj;
                     readToPrint = (((UserData) inObj).getName()) + " :" + (((UserData) inObj).getMessage());
-                    setTextArea();
                 }
+                setTextArea();
             }
 
         }
@@ -107,7 +112,6 @@ public class Client implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            // printOut.println(message);
         } else {
             userData.setMessage(message);
             try {
@@ -118,7 +122,4 @@ public class Client implements Runnable {
         }
     }
 
-    public String getName() {
-        return name;
-    }
 }
