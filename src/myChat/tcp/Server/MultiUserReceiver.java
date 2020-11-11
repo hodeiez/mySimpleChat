@@ -18,7 +18,7 @@ public class MultiUserReceiver extends Thread {
     ServerPrinter serverPrinter;
     Object objIn;
     DAO database;
-
+    Protocol protocol;
 
 
     Socket clientSocket;
@@ -40,29 +40,15 @@ public class MultiUserReceiver extends Thread {
 
             serverPrinter.addWriter(printOut);
             serverPrinter.addWriteObjects(objectOut);
-
+            protocol=new Protocol();
             while (true) {
-                objIn = objectIn.readObject();
-                if (objIn instanceof Init) {
-                    objectOut.writeObject(new Init());
-                } else if (objIn instanceof String) {
-
-                    if (!nameExists((String) objIn)) {
-
-                        UserData userdata = new UserData();
-                        userdata.setName((String) objIn);
-                        database.addUserData(userdata);
-                        objectOut.writeObject(userdata);
-
-                    } else if (nameExists((String) objIn)) {
-
-                        objectOut.writeObject(new Init(true));
-                    }
-                } else if (objIn instanceof UserData) {
-                    sendToAllClients((UserData) objIn);
-                }
+               objIn = objectIn.readObject();
+               objectOut.writeObject(protocol.clientServerInteraction(objIn, database));
+               protocol.sendToAllClients(objIn,serverPrinter);
             }
-        } catch (IOException | ClassNotFoundException e) {
+        }
+        catch (IOException | ClassNotFoundException e) {
+
             e.printStackTrace();
 
 

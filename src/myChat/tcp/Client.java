@@ -96,7 +96,7 @@ public class Client implements Runnable {
                     readToPrint = userData.getName() + " is connected";
                 } else {
                     userData = (UserData) inObj;
-                    readToPrint = (((UserData) inObj).getName()) + " :" + (((UserData) inObj).getMessage());
+                    readToPrint = (((UserData) inObj).getName()) + ": " + (((UserData) inObj).getMessage());
                 }
                 setTextArea();
             }
