@@ -16,7 +16,7 @@ import java.net.ServerSocket;
 public class Server implements Runnable {
     private int port=12345;
     private static ServerPrinter serverPrinter =new ServerPrinter();
-
+    private static DAO database=new DAO();
     public Server(){
 
     }
@@ -29,7 +29,7 @@ public class Server implements Runnable {
         ){
             while(true) {
 
-                MultiUserReceiver user = new MultiUserReceiver(serverSocket.accept(), serverPrinter);
+                MultiUserReceiver user = new MultiUserReceiver(serverSocket.accept(), serverPrinter,database);
                 user.start();
             }
 
@@ -40,6 +40,12 @@ public class Server implements Runnable {
         }
 
 
+    }
+
+    public static void main(String[] args) {
+        Server s=new Server();
+        Thread th=new Thread(s);
+        th.start();
     }
 
 }

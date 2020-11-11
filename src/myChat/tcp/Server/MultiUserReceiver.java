@@ -18,22 +18,10 @@ import java.net.Socket;
  */
 public class MultiUserReceiver extends Thread {
     String readToPrint;
-    TextArea textArea;
-    StackPane imagePane;
     ServerPrinter serverPrinter;
     Object objIn;
+    DAO database;
 
-    public TextArea getTextArea() {
-        return textArea;
-    }
-
-    public StackPane getImagePane() {
-        return imagePane;
-    }
-
-    public Socket getClientSocket() {
-        return clientSocket;
-    }
 
     public String getReadToPrint() {
         return readToPrint;
@@ -41,9 +29,10 @@ public class MultiUserReceiver extends Thread {
 
     Socket clientSocket;
 
-    MultiUserReceiver(Socket clientSocket, ServerPrinter serverPrinter) {
+    MultiUserReceiver(Socket clientSocket, ServerPrinter serverPrinter, DAO database) {
         this.clientSocket = clientSocket;
         this.serverPrinter = serverPrinter;
+        this.database = database;
     }
 
     @Override
@@ -51,23 +40,32 @@ public class MultiUserReceiver extends Thread {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter printOut = new PrintWriter(clientSocket.getOutputStream(), true);
-           ObjectOutputStream objectOut=new ObjectOutputStream(clientSocket.getOutputStream());
+            ObjectOutputStream objectOut = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream objectIn = new ObjectInputStream(clientSocket.getInputStream());
+
+
             serverPrinter.addWriter(printOut);
             serverPrinter.addWriteObjects(objectOut);
 
-            while(true){
-                objIn=objectIn.readObject();
-                if(objIn instanceof Init){
+            while (true) {
+                objIn = objectIn.readObject();
+                if (objIn instanceof Init) {
                     objectOut.writeObject(new Init());
-                }
-                else if(objIn instanceof String){
-                    UserData userdata=new UserData();
-                    userdata.setName((String)objIn);
-                    objectOut.writeObject(userdata);
-                }
-                else if(objIn instanceof UserData){
-                    sendToAllClients((UserData)objIn);
+                } else if (objIn instanceof String) {
+
+                    if (!nameExists((String) objIn)) {
+
+                        UserData userdata = new UserData();
+                        userdata.setName((String) objIn);
+                        database.addUserData(userdata);
+                        objectOut.writeObject(userdata);
+
+                    } else if (nameExists((String) objIn)) {
+
+                        objectOut.writeObject(new Init(true));
+                    }
+                } else if (objIn instanceof UserData) {
+                    sendToAllClients((UserData) objIn);
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -78,15 +76,29 @@ public class MultiUserReceiver extends Thread {
 
     }
 
-    public void sendToAllClients(UserData message){
+    public void sendToAllClients(UserData messages) {
         serverPrinter.getWriteObjects().forEach(pw -> {
             try {
-                pw.writeObject(message);
+                pw.writeObject(messages);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
+
+    public boolean nameExists(String name) {
+        boolean exists = false;
+        System.out.println(database.getUserdataList());
+        for (UserData user : database.getUserdataList()) {
+            if (user.getName().equals(name)) {
+                exists = true;
+                break;
+            }
+        }
+        System.out.println("returning nameExists");
+        return exists;
+    }
+
     public void createSphere(String sphere) {
         String[] split = sphere.split(" ");
 
@@ -94,8 +106,10 @@ public class MultiUserReceiver extends Thread {
         Color colored = Color.valueOf(split[2]);
 
     }
-
+/*
     public void textToPrint() {
         textArea.appendText(getReadToPrint() + "\n");
     }
+
+ */
 }
